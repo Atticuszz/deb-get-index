@@ -1,0 +1,22 @@
+DEFVER=1
+ARCHS_SUPPORTED="amd64"
+CODENAMES_SUPPORTED="focal jammy lunar mantic noble"
+get_github_releases "clash-verge-rev/clash-verge-rev" "latest"
+if [ "${ACTION}" != prettylist ]; then
+    URL="$(grep "browser_download_url.*_amd64\.AppImage\"" "${CACHE_FILE}" | head -n1 | cut -d '"' -f 4)"
+    VERSION_PUBLISHED="$(echo "${URL}" | cut -d '/' -f 8 | sed 's/^v//')"
+fi
+EULA=""
+PRETTY_NAME="Clash Verge Rev"
+WEBSITE="https://github.com/clash-verge-rev/clash-verge-rev"
+SUMMARY="A Clash GUI based on Tauri (Windows, MacOS, Linux)"
+
+install() {
+    mkdir -p "${HOME}/.local/bin"
+    wget -O "${HOME}/.local/bin/clash-verge-rev" "${URL}"
+    chmod +x "${HOME}/.local/bin/clash-verge-rev"
+}
+
+remove() {
+    rm -f "${HOME}/.local/bin/clash-verge-rev"
+}
