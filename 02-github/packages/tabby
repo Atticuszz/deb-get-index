@@ -1,0 +1,12 @@
+DEFVER=1
+ARCHS_SUPPORTED="amd64"
+CODENAMES_SUPPORTED="focal jammy lunar mantic noble"
+get_github_releases "Eugeny/tabby" "latest"
+if [ "${ACTION}" != prettylist ]; then
+    URL="$(grep "browser_download_url.*${HOST_ARCH}\.deb\"" "${CACHE_FILE}" | head -n1 | cut -d '"' -f4)"
+    VERSION_PUBLISHED="$(echo "${URL}" | cut -d '-' -f2)"
+fi
+EULA=""
+PRETTY_NAME="tabby"
+WEBSITE="https://tabby.sh/"
+SUMMARY="A terminal for a more modern age"
