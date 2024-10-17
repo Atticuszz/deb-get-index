@@ -1,12 +1,16 @@
 DEFVER=1
-ARCHS_SUPPORTED="amd64"
+ARCHS_SUPPORTED="amd64 arm64"
 CODENAMES_SUPPORTED="focal jammy lunar mantic noble"
 get_github_releases "Eugeny/tabby" "latest"
 if [ "${ACTION}" != prettylist ]; then
-    URL="$(grep "browser_download_url.*${HOST_ARCH}\.deb\"" "${CACHE_FILE}" | head -n1 | cut -d '"' -f4)"
-    VERSION_PUBLISHED="$(echo "${URL}" | cut -d '-' -f2)"
+    if [ "${HOST_ARCH}" = "amd64" ]; then
+        URL="$(grep "browser_download_url.*linux-x64\.deb\"" "${CACHE_FILE}" | head -n1 | cut -d '"' -f4)"
+    elif [ "${HOST_ARCH}" = "arm64" ]; then
+        URL="$(grep "browser_download_url.*linux-arm64\.deb\"" "${CACHE_FILE}" | head -n1 | cut -d '"' -f4)"
+    fi
+    VERSION_PUBLISHED="$(echo "${URL}" | cut -d '/' -f8 | sed 's/v//')"
 fi
 EULA=""
-PRETTY_NAME="tabby"
+PRETTY_NAME="Tabby"
 WEBSITE="https://tabby.sh/"
 SUMMARY="A terminal for a more modern age"
